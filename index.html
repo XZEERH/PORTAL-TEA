@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monolith EAC | Cyber-Neon Galaxy</title>
-    <!-- Sci-Fi Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <title>TEA | Explorers Astronomy Community</title>
+    <!-- Modern Sci-Fi Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Cosmic Background Engine -->
     <div class="stars-bg"></div>
 
-    <!-- 1. PRE-LOADER SYSTEM -->
-    <div id="preloader" class="preloader-container">
-        <img src="assets/favicon-tea.jpg" alt="Monolith Logo" class="rotating-logo">
-        <div class="loader-ui">
+    <!-- UNIVERSAL LOADER SYSTEM -->
+    <div id="loader" class="loader-overlay" style="display: none; opacity: 0;">
+        <div class="loader-content">
+            <img src="assets/favicon-tea.jpg" alt="TEA Logo" class="loader-logo" onerror="this.src='https://via.placeholder.com/150/050505/00f3ff?text=TEA'">
             <div class="neon-progress-bar">
-                <div id="progress-fill" class="progress-fill"></div>
+                <div id="loader-fill" class="progress-fill"></div>
             </div>
             <div class="loader-stats">
-                <h2 id="loading-text" class="glitch-text">Loading Sistem...</h2>
-                <h2 id="loading-percent" class="cyan-glow">0%</h2>
+                <h2 id="loader-text" class="glitch-text">Loading Sistem...</h2>
+                <h2 id="loader-percent" class="cyan-glow">0%</h2>
             </div>
         </div>
     </div>
 
-    <!-- APP CONTAINER (Hidden until loaded) -->
-    <main id="app" style="display: none;">
-        <!-- Dynamic Content Injected Here via JS -->
+    <!-- MAIN APP CONTAINER -->
+    <main id="app">
+        <!-- JS Components Render Here -->
     </main>
 
     <script src="app.js"></script>
