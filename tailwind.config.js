@@ -2,7 +2,7 @@
 export default {
   content:[
     "./index.html",
-    "./src/**/*.{js,jsx}", // Membaca semua file JSX di folder src
+    "./src/**/*.{js,jsx}", 
   ],
   theme: {
     extend: {},
