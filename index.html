@@ -1,36 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Menghubungkan favicon logo TEA -->
+    <link rel="icon" type="image/jpeg" href="/assets/favicon-tea.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
     <title>TEA | Explorers Astronomy Community</title>
-    <!-- Modern Sci-Fi Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Cosmic Background Engine -->
-    <div class="stars-bg"></div>
-
-    <!-- UNIVERSAL LOADER SYSTEM -->
-    <div id="loader" class="loader-overlay" style="display: none; opacity: 0;">
-        <div class="loader-content">
-            <img src="assets/favicon-tea.jpg" alt="TEA Logo" class="loader-logo" onerror="this.src='https://via.placeholder.com/150/050505/00f3ff?text=TEA'">
-            <div class="neon-progress-bar">
-                <div id="loader-fill" class="progress-fill"></div>
-            </div>
-            <div class="loader-stats">
-                <h2 id="loader-text" class="glitch-text">Loading Sistem...</h2>
-                <h2 id="loader-percent" class="cyan-glow">0%</h2>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
-    <main id="app">
-        <!-- JS Components Render Here -->
-    </main>
-
-    <script src="app.js"></script>
-</body>
+  </head>
+  <body class="bg-[#050505] m-0 p-0 overflow-x-hidden">
+    <!-- Di sinilah seluruh komponen React akan di-mount -->
+    <div id="root"></div>
+    
+    <!-- Entry point Vite & React -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
