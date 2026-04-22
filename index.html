@@ -10,46 +10,42 @@
             --bg-color: #000000;
             --accent-color: #ffffff;
             --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05); /* Sedikit lebih tebal agar teks terbaca */
+            --card-bg: rgba(255, 255, 255, 0.05);
             --border-color: rgba(255, 255, 255, 0.1);
             --secondary-text: #888;
             --font-size-base: 16px;
         }
 
-        /* MATIKAN ANIMASI SYSTEM */
         .no-animations, .no-animations * {
             transition: none !important;
             animation: none !important;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        
+        html { font-size: var(--font-size-base); }
+
         body { 
             background-color: var(--bg-color); 
             color: var(--text-color); 
             overflow-x: hidden; 
             min-height: 100vh;
-            font-size: var(--font-size-base);
         }
 
-        /* Starfield di lapisan terbawah */
         #starfield { position: fixed; inset: 0; z-index: -1; background: #000; }
 
-        /* --- 1. INTRO PORTAL (TRANSPARAN) --- */
+        /* --- 1. INTRO PORTAL --- */
         #intro-portal {
             position: fixed; inset: 0; z-index: 2000; 
-            background: rgba(0, 0, 0, 0.6); /* Overlay tipis agar bintang terlihat */
+            background: rgba(0, 0, 0, 0.5);
             display: flex; align-items: center; justify-content: center;
             text-align: center;
             transition: opacity 0.8s ease;
         }
         .intro-content { max-width: 600px; padding: 20px; z-index: 2001; }
         .intro-logo-sec img { width: 100px; height: 100px; filter: grayscale(1); margin-bottom: 10px;}
-        .intro-logo-sec h1 { font-size: 70px; letter-spacing: 12px; line-height: 1; font-weight: 800; }
-        .sub-title-intro { font-size: 14px; letter-spacing: 4px; color: var(--accent-color); margin-bottom: 30px; text-transform: uppercase; }
-        .quote { font-style: italic; font-size: 16px; color: #ccc; margin-bottom: 30px; line-height: 1.6; }
-
-        .rules-list { margin-bottom: 40px; display: inline-block; text-align: left; }
-        .rule-item { font-size: 13px; color: #666; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; border-left: 1px solid #444; padding-left: 10px; }
+        .intro-logo-sec h1 { font-size: 4rem; letter-spacing: 12px; line-height: 1; font-weight: 800; }
+        .sub-title-intro { font-size: 1rem; letter-spacing: 4px; color: var(--accent-color); margin-bottom: 30px; text-transform: uppercase; }
 
         .btn-masuk-portal {
             margin: 10px auto; width: 220px;
@@ -60,20 +56,18 @@
         }
         .btn-masuk-portal:hover { background: #fff; color: #000; }
 
-        /* --- 2. LOADING SCREEN (TRANSPARAN) --- */
+        /* --- 2. LOADING SCREEN --- */
         #loading-screen {
             position: fixed; inset: 0; 
-            background: rgba(0, 0, 0, 0.8); /* Overlay agar starfield terlihat di belakang */
+            background: rgba(0, 0, 0, 0.8);
             z-index: 5000;
             display: none; flex-direction: column; align-items: center; justify-content: center;
             opacity: 0; transition: opacity 0.5s ease;
         }
         .loader-rotate { width: 120px; height: 120px; margin-bottom: 40px; animation: spin 4s linear infinite; filter: grayscale(1); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .progress-box { width: 220px; height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0; }
-        .progress-fill { width: 0%; height: 100%; background: #fff; transition: 0.1s; }
 
-        /* --- 3. HUB CARDS (RAPI SEPERTI GAMBAR 3) --- */
+        /* --- 3. HUB CARDS --- */
         #app-container { opacity: 0; visibility: hidden; transition: opacity 1.5s ease; }
         #app-container.loaded { opacity: 1; visibility: visible; }
 
@@ -82,42 +76,42 @@
             padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; 
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
         }
-        .header-brand { display: flex; align-items: center; gap: 12px; }
-        .header-brand h2 { font-size: 20px; letter-spacing: 4px; font-weight: 700; }
+        .header-brand h2 { font-size: 1.5rem; letter-spacing: 4px; font-weight: 700; }
         .settings-icon-box { border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .settings-icon-box:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
 
         .container { padding: 40px 20px; max-width: 550px; margin: 0 auto; }
-        .hero-section { text-align: center; margin-bottom: 50px; }
-        .hero-section h1 { font-size: 50px; letter-spacing: 10px; font-weight: 800; }
-        .hero-section p { font-size: 10px; color: var(--secondary-text); letter-spacing: 4px; margin-top: 10px; }
+        .hero-section h1 { font-size: 3rem; letter-spacing: 10px; font-weight: 800; text-align: center; }
 
-        /* Card Portal yang Rapi */
         .portal-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 25px; padding: 30px; margin-bottom: 20px;
+            border-radius: 25px; padding: 25px; margin-bottom: 20px;
             position: relative; cursor: pointer; transition: 0.4s;
             opacity: 0; transform: translateY(20px);
             backdrop-filter: blur(5px);
         }
         .portal-card.reveal { opacity: 1; transform: translateY(0); }
-        .portal-card:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
-
+        
+        /* Tata Letak Icon dan Tag Baru */
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .card-icon { width: 35px; height: 35px; fill: #fff; }
         .card-tag { 
-            font-size: 9px; letter-spacing: 2px; color: var(--secondary-text); 
-            text-transform: uppercase; margin-bottom: 10px; display: block;
+            font-size: 10px; letter-spacing: 2px; color: #00f3ff; 
+            text-transform: uppercase; border: 1px solid rgba(0,243,255,0.3);
+            padding: 2px 8px; border-radius: 5px;
         }
-        .card-icon { width: 40px; height: 40px; margin-bottom: 15px; fill: #fff; }
-        .portal-card h3 { font-size: 22px; letter-spacing: 2px; margin-bottom: 8px; }
-        .portal-card .desc { font-size: 13px; color: var(--secondary-text); margin-bottom: 20px; }
-        .btn-portal-text { font-size: 11px; font-weight: 700; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
 
-        /* FLOATING SYSTEM ACTIVE (MENGIKUTI SCROLL DI KANAN) */
-        .floating-status {
-            position: fixed; right: 20px; bottom: 40%;
-            z-index: 100; writing-mode: vertical-rl;
-            display: flex; flex-direction: column-reverse; align-items: center; gap: 10px;
-            font-size: 10px; letter-spacing: 3px; color: #fff; opacity: 0.6;
+        .portal-card h3 { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 5px; }
+        .portal-card .desc { font-size: 0.9rem; color: var(--secondary-text); margin-bottom: 15px; }
+        .btn-portal-text { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #fff; }
+
+        /* NOTIFIKASI SYSTEM ACTIVATE DI HUB */
+        #floating-status {
+            position: fixed; right: 20px; bottom: 30px;
+            z-index: 100; display: none; /* Hanya muncul di Hub */
+            align-items: center; gap: 10px;
+            background: rgba(0,0,0,0.6); padding: 8px 15px;
+            border-radius: 30px; border: 1px solid var(--border-color);
+            font-size: 11px; letter-spacing: 2px; color: #fff;
             pointer-events: none;
         }
         .dot-blink-white { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.5s infinite; }
@@ -136,10 +130,8 @@
             backdrop-filter: blur(15px);
         }
         #settings-panel.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .panel-title { color: #00f3ff; font-size: 18px; margin-bottom: 20px; text-align: center; letter-spacing: 3px; }
-        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        
-        /* Switch */
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
         .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; inset: 0; background-color: #333; transition: .4s; border-radius: 20px; }
@@ -147,14 +139,20 @@
         input:checked + .slider { background-color: #00f3ff; }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        footer { text-align: center; padding: 40px 0 100px; font-size: 10px; letter-spacing: 4px; color: #888; }
+        .admin-box {
+            margin-top: 20px; padding: 12px; background: rgba(255,255,255,0.05);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            gap: 10px; cursor: pointer; border: 1px solid #333; color: #fff;
+        }
+
+        footer { text-align: center; padding: 40px 0 100px; font-size: 11px; letter-spacing: 4px; color: #888; }
     </style>
 </head>
-<body>
+<body id="main-body">
 
     <canvas id="starfield"></canvas>
 
-    <!-- AUDIO Sfx Click & Ambient -->
+    <!-- Audio Elements -->
     <audio id="sfx-click" src="https://files.catbox.moe/gv6ffo.mp3" preload="auto"></audio>
     <audio id="ambient-space" src="https://files.catbox.moe/1cv98q.mp3" loop preload="auto"></audio>
 
@@ -166,12 +164,10 @@
                 <h1>TEA</h1>
             </div>
             <div class="sub-title-intro">The Editor of Astronomy Community</div>
-            <div class="quote">"Menjelajahi cakrawala, menembus batas pengetahuan antariksa."</div>
             <div class="rules-list">
                 <div class="rule-item">01. HORMATI SESAMA PENJELAJAH</div>
                 <div class="rule-item">02. JAGA INTEGRITAS DATA ASTRONOMI</div>
                 <div class="rule-item">03. BERBAGI PENGETAHUAN SECARA TERBUKA</div>
-                <div class="rule-item">04. GUNAKAN SISTEM DENGAN BIJAK</div>
             </div>
             <button class="btn-masuk-portal" onclick="startSystem()">Masuk Portal</button>
         </div>
@@ -181,23 +177,19 @@
     <div id="loading-screen">
         <img src="assets/favicon-tea.jpg" class="loader-rotate" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
         <div style="font-size: 12px; letter-spacing: 5px; color: #fff;">MENGHUBUNGKAN SISTEM</div>
-        <div class="progress-box"><div class="progress-fill" id="p-fill"></div></div>
-        <div id="p-text" style="font-size: 14px;">0%</div>
+        <div id="p-text" style="font-size: 14px; margin-top: 10px;">0%</div>
     </div>
 
-    <!-- FLOATING STATUS (FOLLOW SCROLL) -->
-    <div class="floating-status">
-        SYSTEM ACTIVE
+    <!-- NOTIFIKASI SYSTEM ACTIVATE -->
+    <div id="floating-status">
         <div class="dot-blink-white"></div>
+        SYSTEM ACTIVE
     </div>
 
-    <!-- HUB CONTENT -->
+    <!-- 3. HUB CONTENT -->
     <div id="app-container">
         <header>
-            <div class="header-brand">
-                <img src="assets/favicon-tea.jpg" style="width:25px;" onerror="this.style.display='none'">
-                <h2>TEA</h2>
-            </div>
+            <div class="header-brand"><h2>TEA</h2></div>
             <div class="settings-icon-box" onclick="toggleMenu()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
                     <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -206,67 +198,66 @@
         </header>
 
         <main class="container">
-            <div class="hero-section">
-                <h1>THE HUB</h1>
-                <p>PUSAT KENDALI NAVIGASI<br>ANTARIKSA TEA</p>
-            </div>
+            <div class="hero-section"><h1>THE HUB</h1></div>
 
-            <!-- Portal Card 1: Registration -->
+            <!-- Portal Card 1 -->
             <div class="portal-card" onclick="goto('https://cahy144hz-community-tea.vercel.app/')">
-                <span class="card-tag">REGISTRATION</span>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    <span class="card-tag">Registration</span>
+                </div>
                 <h3>SEKTOR ALPHA</h3>
-                <p class="desc">Pendaftaran Anggota Baru TEA - Sektor Alpha</p>
+                <p class="desc">Pendaftaran Anggota Baru TEA.</p>
                 <div class="btn-portal-text">MASUK PORTAL &rarr;</div>
             </div>
 
-            <!-- Portal Card 2: WhatsApp -->
+            <!-- Portal Card 2 -->
             <div class="portal-card" onclick="goto('https://whatsapp.com/channel/tea')">
-                <span class="card-tag">COMMUNICATION</span>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-11.7 8.38 8.38 0 0 1 3.8.9L21 3z"/></svg>
+                    <span class="card-tag">Communication</span>
+                </div>
                 <h3>SALURAN TEA</h3>
-                <p class="desc">Update berita astronomi via WhatsApp Channel</p>
+                <p class="desc">Update berita via WhatsApp Channel.</p>
                 <div class="btn-portal-text">MASUK PORTAL &rarr;</div>
             </div>
 
-            <!-- Portal Card 3: Warta -->
-            <div class="portal-card" onclick="goto('#warta')">
-                <span class="card-tag">NEWS</span>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-                <h3>WARTA ANTARIKSA</h3>
-                <p class="desc">Kumpulan artikel dan jurnal astronomi terbaru</p>
-                <div class="btn-portal-text">MASUK PORTAL &rarr;</div>
-            </div>
-
-            <!-- Portal Card 4: Quiz -->
+            <!-- Portal Card 3 -->
             <div class="portal-card" onclick="goto('#quiz')">
-                <span class="card-tag">EDUCATION</span>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="card-tag">Education</span>
+                </div>
                 <h3>QUIZZ ASTRO</h3>
-                <p class="desc">Uji pengetahuan astronomimu di sini</p>
+                <p class="desc">Uji pengetahuan astronomimu.</p>
                 <div class="btn-portal-text">MEMBUKA PORTAL &rarr;</div>
             </div>
 
-            <!-- Portal Card 5: Astro Calc -->
+            <!-- Portal Card 4 -->
             <div class="portal-card" onclick="goto('#astro')">
-                <span class="card-tag">UTILITY</span>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+                    <span class="card-tag">Utility</span>
+                </div>
                 <h3>ASTRO CALC</h3>
-                <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
+                <p class="desc">Alat hitung konversi fisika astronomi.</p>
                 <div class="btn-portal-text">MASUK PORTAL &rarr;</div>
             </div>
         </main>
 
-        <!-- SETTINGS PANEL -->
         <div id="settings-panel">
-            <h3 class="panel-title">PENGATURAN</h3>
-            <div class="setting-row"><span>Mode Layar Penuh</span><label class="switch"><input type="checkbox" id="full-toggle" onchange="toggleFullscreen()"><span class="slider"></span></label></div>
+            <h3 style="color:#00f3ff; text-align:center; margin-bottom:20px;">PENGATURAN</h3>
+            <div class="setting-row"><span>Mode Layar Penuh</span><label class="switch"><input type="checkbox" onchange="toggleFullscreen()"><span class="slider"></span></label></div>
             <div class="setting-row"><span>Ambient Space</span><label class="switch"><input type="checkbox" id="ambient-toggle" onchange="handleAmbient()"><span class="slider"></span></label></div>
             <div class="setting-row"><span>Sound Click (SFX)</span><label class="switch"><input type="checkbox" id="sfx-toggle" checked><span class="slider"></span></label></div>
             <div class="setting-row"><span>Matikan Animasi</span><label class="switch"><input type="checkbox" id="anim-toggle" onchange="handleAnimToggle()"><span class="slider"></span></label></div>
             <div class="setting-row"><span>Status Daya</span><span id="bat-val" style="color:#00f3ff;">--%</span></div>
-            <div style="margin-top:20px;"><span style="font-size:11px; color:#666;">UKURAN TEKS</span><input type="range" min="12" max="24" value="16" style="width:100%; margin-top:10px;" oninput="changeTextSize(this.value)"></div>
-            <div class="settings-icon-box" style="margin-top:20px; text-align:center;" onclick="goto('hub-view')">PANEL ADMIN</div>
+            <div style="margin-top:20px;"><span>UKURAN TEKS</span><input type="range" min="12" max="30" value="16" style="width:100%;" oninput="changeTextSize(this.value)"></div>
+            
+            <div class="admin-box" onclick="goto('hub-view')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                PANEL ADMIN
+            </div>
             <button class="btn-masuk-portal" style="width:100%; margin-top:15px; border-color:#444; color:#888;" onclick="toggleMenu()">TUTUP</button>
         </div>
 
@@ -277,57 +268,57 @@
         const sfx = document.getElementById('sfx-click');
         const ambient = document.getElementById('ambient-space');
 
+        // Memastikan audio terinisialisasi
         function playClick() {
             if(document.getElementById('sfx-toggle').checked) {
+                sfx.pause();
                 sfx.currentTime = 0;
-                sfx.play().catch(e => console.log("Audio play error"));
+                sfx.play().catch(e => console.log("Izin audio belum diberikan"));
             }
         }
 
         function handleAnimToggle() {
             playClick();
-            if(document.getElementById('anim-toggle').checked) {
-                document.body.classList.add('no-animations');
-            } else {
-                document.body.classList.remove('no-animations');
-            }
+            document.body.classList.toggle('no-animations', document.getElementById('anim-toggle').checked);
         }
 
         function startSystem() {
+            // Unmute audio on first interaction
+            sfx.play().then(() => sfx.pause()); 
             playClick();
-            const screen = document.getElementById('loading-screen');
-            const intro = document.getElementById('intro-portal');
-            const app = document.getElementById('app-container');
 
-            screen.style.display = 'flex';
-            setTimeout(() => { screen.style.opacity = '1'; }, 10);
-            intro.style.opacity = '0';
-            setTimeout(() => { intro.style.display = 'none'; }, 800);
-
-            runLoading(() => {
-                app.classList.add('loaded');
-            });
+            document.getElementById('intro-portal').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-portal').style.display = 'none';
+                runLoading(() => {
+                    const app = document.getElementById('app-container');
+                    app.classList.add('loaded');
+                    document.getElementById('floating-status').style.display = 'flex';
+                });
+            }, 800);
         }
 
         function runLoading(callback) {
-            const fill = document.getElementById('p-fill');
+            const screen = document.getElementById('loading-screen');
             const text = document.getElementById('p-text');
+            screen.style.display = 'flex';
+            setTimeout(() => screen.style.opacity = '1', 10);
+
             let p = 0;
             let interval = setInterval(() => {
-                p += 1;
-                fill.style.width = p + '%';
+                p += 2;
                 text.innerText = p + '%';
                 if(p >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
-                        document.getElementById('loading-screen').style.opacity = '0';
+                        screen.style.opacity = '0';
                         setTimeout(() => {
-                            document.getElementById('loading-screen').style.display = 'none';
+                            screen.style.display = 'none';
                             if(callback) callback();
                         }, 500);
                     }, 500);
                 }
-            }, 45); 
+            }, 40); 
         }
 
         function goto(url) {
@@ -340,8 +331,12 @@
         function toggleMenu() { playClick(); document.getElementById('settings-panel').classList.toggle('active'); }
         function handleAmbient() { playClick(); if(document.getElementById('ambient-toggle').checked) ambient.play(); else ambient.pause(); }
         function toggleFullscreen() { playClick(); if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
-        function changeTextSize(v) { document.documentElement.style.setProperty('--font-size-base', v + 'px'); }
+        
+        function changeTextSize(v) { 
+            document.documentElement.style.setProperty('--font-size-base', v + 'px'); 
+        }
 
+        // Starfield
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -351,6 +346,10 @@
             for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
         }
         function drawStars() {
+            if(document.body.classList.contains('no-animations')) {
+                requestAnimationFrame(drawStars);
+                return;
+            }
             ctx.clearRect(0,0,canvas.width, canvas.height);
             ctx.fillStyle = "white";
             stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y += 0.2; if(s.y > canvas.height) s.y = 0; });
