@@ -179,4 +179,195 @@
 
     <!-- 2. LOADING SCREEN -->
     <div id="loading-screen">
-        <img src="assets/f
+        <img src="assets/favicon-tea.jpg" class="loader-rotate" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+        <div style="font-size: 12px; letter-spacing: 5px; color: var(--accent-color);">MENGHUBUNGKAN SISTEM</div>
+        <div class="progress-box"><div class="progress-fill" id="p-fill"></div></div>
+        <div id="p-text">0%</div>
+    </div>
+
+
+    <!-- ANTI-FOUC WRAPPER UNTUK SEMUA KONTEN UTAMA -->
+    <div id="app-container">
+
+        <!-- 3. HEADER -->
+        <header>
+            <div class="header-brand">
+                <img src="assets/favicon-tea.jpg" onerror="this.style.display='none'">
+                <h2>TEA</h2>
+            </div>
+            <svg class="settings-icon" viewBox="0 0 24 24" onclick="toggleMenu()"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        </header>
+
+        <!-- 4. MAIN CONTENT -->
+        <main class="container">
+            <div class="hero-section">
+                <h1>THE HUB</h1>
+                <p>PUSAT KENDALI NAVIGASI<br>ANTARIKSA TEA</p>
+            </div>
+
+            <!-- Portal: Sektor Alpha -->
+            <div class="portal-card" onclick="goto('https://cahy144hz-community-tea.vercel.app/')">
+                <div class="card-tag">REGISTRATION</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <h3>SEKTOR ALPHA</h3>
+                <p class="desc">Pendaftaran Anggota Baru TEA - Sektor Alpha</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal: Saluran TEA -->
+            <div class="portal-card" onclick="goto('https://whatsapp.com/channel/tea')">
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3>SALURAN TEA</h3>
+                <p class="desc">Update berita astronomi via WhatsApp Channel</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal: Warta Antariksa -->
+            <div class="portal-card" onclick="goto('#warta')">
+                <div class="card-tag">NEWS</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                </div>
+                <h3>WARTA ANTARIKSA</h3>
+                <p class="desc">Kumpulan artikel dan jurnal astronomi terbaru</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal Baru: Quizz Astro -->
+            <div class="portal-card" onclick="goto('#quiz')">
+                <div class="card-tag">EDUCATION</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <h3>QUIZZ ASTRO</h3>
+                <p class="desc">Uji pengetahuan astronomimu di sini</p>
+                <div class="btn-buka">MEMBUKA PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal: Astro Calc -->
+            <div class="portal-card" onclick="goto('#astro')">
+                <div class="card-tag">UTILITY</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01"/></svg>
+                </div>
+                <h3>ASTRO CALC</h3>
+                <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+        </main>
+
+        <div class="system-pill-fixed"><div class="active-dot"></div>SYSTEM ACTIVE</div>
+
+        <div id="settings-panel">
+            <h3 style="color:var(--accent-color); margin-bottom:20px;">PENGATURAN</h3>
+            <div class="setting-row"><span>Musik Ambient</span><input type="checkbox" onchange="handleAmbient()"></div>
+            <div class="setting-row"><span>Status Daya</span><span id="bat-val">--%</span></div>
+            <div class="setting-row"><span>Ukuran Teks</span><input type="range" min="12" max="24" oninput="changeTextSize(this.value)"></div>
+            <button onclick="toggleMenu()" style="margin-top:40px; background:none; border:1px solid #444; color:#fff; padding:10px; width:100%;">TUTUP</button>
+        </div>
+
+        <footer>dibuat oleh razeerh</footer>
+
+    </div> <!-- TUTUP APP CONTAINER -->
+
+    <script>
+        // System Functions
+        function startSystem() {
+            const screen = document.getElementById('loading-screen');
+            const intro = document.getElementById('intro-portal');
+
+            // 1. Langsung panggil loading screen untuk menutupi transisi (z-index: 5000)
+            screen.style.display = 'flex';
+            setTimeout(() => { screen.style.opacity = '1'; }, 10);
+
+            // 2. Sembunyikan Intro Portal
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.display = 'none';
+            }, 500);
+
+            // 3. Jalankan Loading & Tampilkan Main App saat beres
+            runLoading(() => {
+                const app = document.getElementById('app-container');
+                app.classList.add('loaded'); // Menjalankan animasi Fade-In ke Main Hub
+            });
+        }
+
+        function runLoading(callback) {
+            const screen = document.getElementById('loading-screen');
+            const fill = document.getElementById('p-fill');
+            const text = document.getElementById('p-text');
+            
+            screen.style.display = 'flex';
+            setTimeout(() => { screen.style.opacity = '1'; }, 10);
+            
+            let p = 0;
+            fill.style.width = '0%';
+            text.innerText = '0%';
+
+            // Diatur interval per 45ms + increment 1 agar total waktu muat +/- 4.5 detik
+            let interval = setInterval(() => {
+                p += 1;
+                if(p >= 100) {
+                    p = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.opacity = '0';
+                        setTimeout(() => {
+                            screen.style.display = 'none';
+                            if(callback) callback();
+                        }, 500); // Durasi fade out loading
+                    }, 500); // Penahanan singkat di 100%
+                }
+                fill.style.width = p + '%';
+                text.innerText = p + '%';
+            }, 45); 
+        }
+
+        function goto(url) {
+            runLoading(() => {
+                if(url.startsWith('http')) window.location.href = url;
+                else alert("Berpindah ke: " + url);
+            });
+        }
+
+        function toggleMenu() { document.getElementById('settings-panel').classList.toggle('active'); }
+        function changeTextSize(v) { document.documentElement.style.setProperty('--font-size-base', v + 'px'); }
+
+        // Starfield Logic
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function initStars() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = [];
+            for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
+        }
+        function drawStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y += 0.2; if(s.y > canvas.height) s.y = 0; });
+            requestAnimationFrame(drawStars);
+        }
+        initStars(); drawStars();
+
+        // Reveal Cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('reveal'); });
+        }, {threshold: 0.1});
+        document.querySelectorAll('.portal-card').forEach(c => observer.observe(c));
+
+        // Battery
+        if (navigator.getBattery) {
+            navigator.getBattery().then(b => {
+                const upd = () => document.getElementById('bat-val').innerText = Math.round(b.level * 100) + "%";
+                upd(); b.addEventListener('levelchange', upd);
+            });
+        }
+    </script>
+</body>
+</html>
