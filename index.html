@@ -1,17 +1,316 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/assets/favicon-tea.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <title>TEA — THE EDITOR OF ASTRONOMY</title>
-    
-    <meta name="description" content="Pusat kendali navigasi dan pendaftaran komunitas TEA." />
-  </head>
-  <body style="background-color: black; margin: 0;">
-    <div id="root"></div>
-    
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEA PORTAL - The Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-color: #00f3ff;
+            --text-color: #ffffff;
+            --card-bg: rgba(20, 20, 20, 0.4);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --secondary-text: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; min-height: 100vh; }
+
+        /* Canvas Stars */
+        #starfield { position: fixed; inset: 0; z-index: -1; background: #000; }
+
+        /* --- 1. INTRO PORTAL (SISTEM LAMA DI PERTAHANKAN) --- */
+        #intro-portal {
+            position: fixed; inset: 0; z-index: 2000; background: #000;
+            display: flex; flex-direction: column; padding: 40px; justify-content: center;
+            transition: opacity 1s ease;
+        }
+        .intro-content { max-width: 500px; margin-left: 20px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px; }
+        .intro-logo-sec { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .intro-logo-sec img { width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 0 20px var(--accent-color); }
+        .intro-logo-sec h1 { font-size: 50px; letter-spacing: 10px; line-height: 1; }
+        .sub-title-intro { font-size: 14px; letter-spacing: 4px; color: #888; margin-bottom: 40px; text-transform: uppercase; }
+        .quote { font-style: italic; font-size: 18px; color: #ccc; margin-bottom: 50px; line-height: 1.6; max-width: 300px; }
+        .btn-masuk-portal {
+            position: absolute; bottom: 60px; right: 40px; writing-mode: vertical-rl;
+            text-transform: uppercase; letter-spacing: 5px; font-weight: 700; cursor: pointer;
+            border-right: 2px solid var(--accent-color); padding-right: 10px; transition: 0.3s;
+        }
+        .btn-masuk-portal:hover { color: var(--accent-color); }
+
+        /* --- 2. LOADING SCREEN (SISTEM LAMA DI PERTAHANKAN) --- */
+        #loading-screen {
+            position: fixed; inset: 0; background: var(--bg-color); z-index: 3000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loader-rotate { width: 80px; height: 80px; margin-bottom: 30px; animation: spin 10s linear infinite; border-radius: 50%; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .progress-box { width: 200px; height: 2px; background: rgba(255,255,255,0.1); margin: 15px 0; }
+        .progress-fill { width: 0%; height: 100%; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); }
+
+        /* --- 3. HEADER (STYLE BARU SESUAI GAMBAR) --- */
+        header { 
+            padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        .header-brand { display: flex; align-items: center; gap: 12px; }
+        .brand-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; }
+        .header-brand h2 { font-size: 26px; letter-spacing: 4px; font-weight: 700; }
+        
+        .header-nav { display: flex; align-items: center; gap: 20px; }
+        .nav-status-dot { width: 6px; height: 6px; background: #888; border-radius: 50%; }
+        .menu-trigger { font-size: 14px; letter-spacing: 2px; color: var(--secondary-text); cursor: pointer; }
+
+        /* --- 4. MAIN CONTENT (LAYOUT PERSIS GAMBAR) --- */
+        .container { padding: 0 20px 40px; max-width: 500px; margin: 0 auto; }
+        
+        .hero-section { text-align: center; margin: 50px 0; }
+        .hero-section h1 { font-size: 60px; letter-spacing: 12px; font-weight: 800; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .hero-section p { font-size: 10px; color: var(--secondary-text); letter-spacing: 5px; margin-top: 10px; line-height: 2; }
+
+        /* Card Component */
+        .portal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 40px; /* Sesuai gambar, sangat melengkung */
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-tag {
+            position: absolute; top: 30px; right: 30px;
+            border: 1px solid var(--border-color);
+            padding: 4px 15px; border-radius: 20px;
+            font-size: 9px; letter-spacing: 2px; color: var(--secondary-text);
+        }
+
+        .icon-container {
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .portal-card h3 { font-size: 24px; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
+        .portal-card .desc { font-size: 13px; color: var(--secondary-text); margin-bottom: 30px; letter-spacing: 1px; }
+
+        .btn-buka {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13px; font-weight: 600; letter-spacing: 2px;
+            color: #fff; text-decoration: none; cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-buka:hover { color: var(--accent-color); }
+
+        /* System Active Indicator */
+        .system-pill {
+            position: absolute; bottom: 25px; right: 25px;
+            border: 1px solid var(--border-color);
+            padding: 6px 15px; border-radius: 20px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 10px; letter-spacing: 2px; color: var(--secondary-text);
+        }
+        .active-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; }
+
+        /* --- 5. SETTINGS PANEL --- */
+        #settings-panel {
+            position: fixed; top: 0; right: -100%; width: 85%; max-width: 350px;
+            height: 100%; background: rgba(5,5,5,0.98); z-index: 4000; padding: 30px;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--border-color);
+        }
+        #settings-panel.active { right: 0; }
+        .setting-row { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        
+        footer { text-align: center; padding: 40px; font-size: 10px; letter-spacing: 4px; color: #333; text-transform: uppercase; }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield"></canvas>
+
+    <!-- SISTEM LAMA: INTRO PORTAL -->
+    <div id="intro-portal">
+        <div class="intro-content">
+            <div class="intro-logo-sec">
+                <img src="assets/favicon-tea.jpg" alt="Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+                <h1>TEA</h1>
+            </div>
+            <div class="sub-title-intro">The Editor of Astronomy Community</div>
+            <div class="quote">"Menjelajahi cakrawala, menembus batas pengetahuan antariksa."</div>
+        </div>
+        <div class="btn-masuk-portal" onclick="startSystem()">Masuk Portal</div>
+    </div>
+
+    <!-- SISTEM LAMA: LOADING SCREEN -->
+    <div id="loading-screen">
+        <img src="assets/favicon-tea.jpg" class="loader-rotate" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+        <div style="font-size: 12px; letter-spacing: 3px; color: var(--accent-color);">MENGHUBUNGKAN SISTEM</div>
+        <div class="progress-box"><div class="progress-fill" id="p-fill"></div></div>
+        <div id="p-text" style="font-size: 14px;">0%</div>
+    </div>
+
+    <!-- HEADER (VISUAL BARU) -->
+    <header>
+        <div class="header-brand">
+            <div class="brand-dot"></div>
+            <h2>TEA</h2>
+        </div>
+        <div class="header-nav">
+            <div class="nav-status-dot"></div>
+            <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+        </div>
+    </header>
+
+    <!-- MAIN HUB (VISUAL BARU SESUAI GAMBAR) -->
+    <main class="container">
+        <div class="hero-section">
+            <h1>THE HUB</h1>
+            <p>PUSAT KENDALI NAVIGASI<br>ANTARIKSA TEA</p>
+        </div>
+
+        <!-- Kartu 1 -->
+        <div class="portal-card">
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>SALURAN TEA</h3>
+            <p class="desc">Update berita astronomi via WhatsApp Channel</p>
+            <div class="btn-buka" onclick="goto('https://whatsapp.com/channel/tea')">
+                BUKA PORTAL <span>&rarr;</span>
+            </div>
+        </div>
+
+        <!-- Kartu 2 -->
+        <div class="portal-card">
+            <div class="card-tag">ARCHIVE</div>
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3>WARTA ANTARIKSA</h3>
+            <p class="desc">Dashboard artikel & feed berita luar angkasa</p>
+            <div class="btn-buka" onclick="goto('#news')">
+                BUKA PORTAL <span>&rarr;</span>
+            </div>
+        </div>
+
+        <!-- Kartu 3 -->
+        <div class="portal-card">
+            <div class="card-tag">UTILITY</div>
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+            </div>
+            <h3>ASTRO CALC</h3>
+            <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
+            <div class="system-pill">
+                <div class="active-dot"></div>
+                SYSTEM ACTIVE
+            </div>
+        </div>
+
+        <!-- Kartu 4 -->
+        <div class="portal-card">
+            <div class="card-tag">REGISTRATION</div>
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>SEKTOR ALPHA</h3>
+            <p class="desc">Pendaftaran Anggota Baru TEA - Sektor Alpha</p>
+            <div class="btn-buka" onclick="goto('#regis')">
+                BUKA PORTAL <span>&rarr;</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- SISTEM LAMA: SETTINGS -->
+    <div id="settings-panel">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 30px; color: var(--accent-color);">
+            <h3>PANEL PENGATURAN</h3>
+            <span onclick="toggleMenu()" style="cursor:pointer; font-size: 24px;">&times;</span>
+        </div>
+        <div class="setting-row"><span>Mode Layar Penuh</span><input type="checkbox"></div>
+        <div class="setting-row"><span>Musik Ambient</span><input type="checkbox"></div>
+        <div class="setting-row"><span>Status Daya</span><span id="bat">95%</span></div>
+        <div class="setting-row"><span>Efek Suara (SFX)</span><input type="checkbox" checked></div>
+        <div class="setting-row" style="border:none;"><span>Ukuran Teks</span><input type="range" style="width: 100px;"></div>
+    </div>
+
+    <footer>dibuat oleh razeerh</footer>
+
+    <script>
+        // Starfield Engine
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function initStars() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = [];
+            for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
+        }
+        function drawStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,255,255,0.8)";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y += 0.3; if(s.y > canvas.height) s.y = 0; });
+            requestAnimationFrame(drawStars);
+        }
+        initStars(); drawStars();
+
+        // SISTEM LAMA: TRANSISI & LOADING
+        function startSystem() {
+            document.getElementById('intro-portal').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-portal').style.display = 'none';
+                runLoading();
+            }, 1000);
+        }
+
+        function runLoading(callback) {
+            const screen = document.getElementById('loading-screen');
+            const fill = document.getElementById('p-fill');
+            const text = document.getElementById('p-text');
+            screen.style.display = 'flex';
+            
+            let p = 0;
+            let interval = setInterval(() => {
+                p += Math.floor(Math.random() * 5) + 3;
+                if(p >= 100) {
+                    p = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.display = 'none';
+                        if(callback) callback();
+                    }, 500);
+                }
+                fill.style.width = p + '%';
+                text.innerText = p + '%';
+            }, 80);
+        }
+
+        // SISTEM LAMA: GOTO FUNCTION
+        function goto(url) {
+            runLoading(() => {
+                if(url.startsWith('http')) window.location.href = url;
+                else alert("Navigasi internal ke: " + url);
+            });
+        }
+
+        function toggleMenu() {
+            document.getElementById('settings-panel').classList.toggle('active');
+        }
+
+        // Battery Status
+        if (navigator.getBattery) {
+            navigator.getBattery().then(b => {
+                const update = () => document.getElementById('bat').innerText = Math.round(b.level * 100) + "%";
+                update(); b.addEventListener('levelchange', update);
+            });
+        }
+    </script>
+</body>
 </html>
