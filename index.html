@@ -7,89 +7,108 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
+            --bg-color: #000000;
             --accent-color: #00f3ff;
             --text-color: #ffffff;
-            --card-bg: rgba(20, 20, 20, 0.4);
-            --border-color: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
             --secondary-text: #888;
+            --font-size-base: 16px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; min-height: 100vh; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            font-size: var(--font-size-base);
+        }
 
-        /* Canvas Stars */
         #starfield { position: fixed; inset: 0; z-index: -1; background: #000; }
 
-        /* --- 1. INTRO PORTAL (SISTEM LAMA DI PERTAHANKAN) --- */
+        /* --- 1. INTRO PORTAL (UPDATED) --- */
         #intro-portal {
             position: fixed; inset: 0; z-index: 2000; background: #000;
             display: flex; flex-direction: column; padding: 40px; justify-content: center;
             transition: opacity 1s ease;
+            background-image: radial-gradient(circle at center, rgba(0, 243, 255, 0.05) 0%, transparent 70%);
         }
-        .intro-content { max-width: 500px; margin-left: 20px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px; }
-        .intro-logo-sec { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .intro-logo-sec img { width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 0 20px var(--accent-color); }
-        .intro-logo-sec h1 { font-size: 50px; letter-spacing: 10px; line-height: 1; }
-        .sub-title-intro { font-size: 14px; letter-spacing: 4px; color: #888; margin-bottom: 40px; text-transform: uppercase; }
-        .quote { font-style: italic; font-size: 18px; color: #ccc; margin-bottom: 50px; line-height: 1.6; max-width: 300px; }
-        .btn-masuk-portal {
-            position: absolute; bottom: 60px; right: 40px; writing-mode: vertical-rl;
-            text-transform: uppercase; letter-spacing: 5px; font-weight: 700; cursor: pointer;
-            border-right: 2px solid var(--accent-color); padding-right: 10px; transition: 0.3s;
-        }
-        .btn-masuk-portal:hover { color: var(--accent-color); }
+        .intro-content { max-width: 600px; margin-left: 20px; border-left: 2px solid var(--accent-color); padding-left: 40px; }
+        .intro-logo-sec { display: flex; align-items: center; gap: 25px; margin-bottom: 30px; }
+        .intro-logo-sec img { width: 120px; height: 120px; filter: drop-shadow(0 0 10px var(--accent-color)); } /* Diperbesar & tanpa bulatan */
+        .intro-logo-sec h1 { font-size: 80px; letter-spacing: 15px; line-height: 1; font-weight: 800; }
+        .sub-title-intro { font-size: 16px; letter-spacing: 5px; color: var(--accent-color); margin-bottom: 40px; text-transform: uppercase; }
+        .quote { font-style: italic; font-size: 20px; color: #ccc; margin-bottom: 30px; line-height: 1.6; }
+        
+        .rules-list { margin-bottom: 60px; }
+        .rule-item { font-size: 14px; color: #666; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; }
 
-        /* --- 2. LOADING SCREEN (SISTEM LAMA DI PERTAHANKAN) --- */
+        .btn-masuk-portal {
+            position: relative; margin-top: 20px; width: fit-content;
+            text-transform: uppercase; letter-spacing: 5px; font-weight: 700; cursor: pointer;
+            border-left: 3px solid var(--accent-color); padding: 10px 20px; transition: 0.3s;
+            background: rgba(0, 243, 255, 0.05);
+        }
+        .btn-masuk-portal:hover { background: var(--accent-color); color: #000; }
+
+        /* --- 2. LOADING SCREEN (UPDATED) --- */
         #loading-screen {
-            position: fixed; inset: 0; background: var(--bg-color); z-index: 3000;
+            position: fixed; inset: 0; background: #000; z-index: 5000;
             display: none; flex-direction: column; align-items: center; justify-content: center;
         }
-        .loader-rotate { width: 80px; height: 80px; margin-bottom: 30px; animation: spin 10s linear infinite; border-radius: 50%; }
+        .loader-rotate { width: 180px; height: 180px; margin-bottom: 40px; animation: spin 4s linear infinite; } /* Diperbesar */
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .progress-box { width: 200px; height: 2px; background: rgba(255,255,255,0.1); margin: 15px 0; }
-        .progress-fill { width: 0%; height: 100%; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); }
+        .progress-box { width: 300px; height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0; border-radius: 2px; }
+        .progress-fill { width: 0%; height: 100%; background: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); transition: 0.1s; }
 
-        /* --- 3. HEADER (STYLE BARU SESUAI GAMBAR) --- */
+        /* --- 3. HEADER (UPDATED) --- */
         header { 
-            padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            position: sticky; top: 0; z-index: 1000;
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
         }
-        .header-brand { display: flex; align-items: center; gap: 12px; }
-        .brand-dot { width: 12px; height: 12px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; }
-        .header-brand h2 { font-size: 26px; letter-spacing: 4px; font-weight: 700; }
-        
+        .header-brand { display: flex; align-items: center; gap: 15px; }
+        .header-brand img { width: 32px; height: 32px; } /* Favicon tea */
+        .header-brand h2 { font-size: 24px; letter-spacing: 5px; font-weight: 700; }
+
         .header-nav { display: flex; align-items: center; gap: 20px; }
-        .nav-status-dot { width: 6px; height: 6px; background: #888; border-radius: 50%; }
-        .menu-trigger { font-size: 14px; letter-spacing: 2px; color: var(--secondary-text); cursor: pointer; }
+        .settings-icon { width: 24px; height: 24px; cursor: pointer; fill: var(--secondary-text); transition: 0.3s; }
+        .settings-icon:hover { fill: var(--accent-color); transform: rotate(45deg); }
 
-        /* --- 4. MAIN CONTENT (LAYOUT PERSIS GAMBAR) --- */
-        .container { padding: 0 20px 40px; max-width: 500px; margin: 0 auto; }
-        
-        .hero-section { text-align: center; margin: 50px 0; }
-        .hero-section h1 { font-size: 60px; letter-spacing: 12px; font-weight: 800; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        .hero-section p { font-size: 10px; color: var(--secondary-text); letter-spacing: 5px; margin-top: 10px; line-height: 2; }
+        /* --- 4. MAIN HUB & CARDS --- */
+        .container { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+        .hero-section { text-align: center; margin-bottom: 60px; }
+        .hero-section h1 { font-size: 60px; letter-spacing: 12px; font-weight: 800; }
+        .hero-section p { font-size: 11px; color: var(--secondary-text); letter-spacing: 5px; line-height: 2; margin-top: 15px; }
 
-        /* Card Component */
         .portal-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 40px; /* Sesuai gambar, sangat melengkung */
-            padding: 30px;
+            border-radius: 35px;
+            padding: 35px;
             margin-bottom: 25px;
             position: relative;
-            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; transform: translateY(30px); /* For Fade Scroll */
+        }
+        .portal-card.reveal { opacity: 1; transform: translateY(0); }
+        .portal-card:hover { 
+            background: rgba(255, 255, 255, 0.06); 
+            border-color: var(--accent-color);
+            transform: scale(1.02);
         }
 
         .card-tag {
-            position: absolute; top: 30px; right: 30px;
+            position: absolute; top: 30px; right: 35px;
             border: 1px solid var(--border-color);
-            padding: 4px 15px; border-radius: 20px;
+            padding: 5px 15px; border-radius: 20px;
             font-size: 9px; letter-spacing: 2px; color: var(--secondary-text);
         }
 
         .icon-container {
-            width: 60px; height: 60px;
+            width: 55px; height: 55px;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border-color);
             border-radius: 15px;
@@ -97,37 +116,55 @@
             margin-bottom: 25px;
         }
 
-        .portal-card h3 { font-size: 24px; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
-        .portal-card .desc { font-size: 13px; color: var(--secondary-text); margin-bottom: 30px; letter-spacing: 1px; }
+        .portal-card h3 { font-size: 26px; letter-spacing: 3px; margin-bottom: 12px; }
+        .portal-card .desc { font-size: 14px; color: var(--secondary-text); margin-bottom: 25px; }
 
         .btn-buka {
             display: flex; align-items: center; gap: 10px;
-            font-size: 13px; font-weight: 600; letter-spacing: 2px;
-            color: #fff; text-decoration: none; cursor: pointer;
-            transition: 0.3s;
+            font-size: 12px; font-weight: 700; letter-spacing: 2px;
+            color: #fff; text-transform: uppercase;
         }
-        .btn-buka:hover { color: var(--accent-color); }
 
-        /* System Active Indicator */
-        .system-pill {
-            position: absolute; bottom: 25px; right: 25px;
+        /* --- SYSTEM ACTIVE PILL (NEW POS) --- */
+        .system-pill-fixed {
+            position: fixed; bottom: 30px; left: 30px; z-index: 900;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
             border: 1px solid var(--border-color);
-            padding: 6px 15px; border-radius: 20px;
-            display: flex; align-items: center; gap: 8px;
-            font-size: 10px; letter-spacing: 2px; color: var(--secondary-text);
+            padding: 8px 18px; border-radius: 30px;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 11px; letter-spacing: 3px; color: var(--accent-color);
         }
-        .active-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; }
+        .active-dot { width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; box-shadow: 0 0 10px var(--accent-color); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-        /* --- 5. SETTINGS PANEL --- */
+        /* --- 5. SETTINGS PANEL (FIXED & FUNCTIONAL) --- */
         #settings-panel {
-            position: fixed; top: 0; right: -100%; width: 85%; max-width: 350px;
-            height: 100%; background: rgba(5,5,5,0.98); z-index: 4000; padding: 30px;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--border-color);
+            position: fixed; top: 0; right: -100%; width: 90%; max-width: 380px;
+            height: 100%; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px);
+            z-index: 4000; padding: 40px;
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border-left: 1px solid var(--accent-color);
         }
         #settings-panel.active { right: 0; }
-        .setting-row { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .setting-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .setting-header h3 { color: var(--accent-color); letter-spacing: 3px; }
+        .close-settings { font-size: 30px; cursor: pointer; color: #fff; }
+
+        .setting-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+        .setting-row span { font-size: 15px; letter-spacing: 1px; }
+
+        /* Custom Input Styling */
+        input[type="checkbox"] { width: 40px; height: 20px; appearance: none; background: #333; border-radius: 20px; position: relative; cursor: pointer; }
+        input[type="checkbox"]:checked { background: var(--accent-color); }
+        input[type="checkbox"]::before { content: ''; position: absolute; width: 16px; height: 16px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+        input[type="checkbox"]:checked::before { left: 22px; }
         
-        footer { text-align: center; padding: 40px; font-size: 10px; letter-spacing: 4px; color: #333; text-transform: uppercase; }
+        input[type="range"] { accent-color: var(--accent-color); cursor: pointer; }
+
+        footer { text-align: center; padding: 60px 40px 100px; font-size: 10px; letter-spacing: 5px; color: #444; }
 
     </style>
 </head>
@@ -135,134 +172,208 @@
 
     <canvas id="starfield"></canvas>
 
-    <!-- SISTEM LAMA: INTRO PORTAL -->
+    <!-- 1. INTRO PORTAL -->
     <div id="intro-portal">
         <div class="intro-content">
             <div class="intro-logo-sec">
-                <img src="assets/favicon-tea.jpg" alt="Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+                <img src="assets/favicon-tea.jpg" alt="TEA Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
                 <h1>TEA</h1>
             </div>
             <div class="sub-title-intro">The Editor of Astronomy Community</div>
             <div class="quote">"Menjelajahi cakrawala, menembus batas pengetahuan antariksa."</div>
+            
+            <div class="rules-list">
+                <div class="rule-item">01. HORMATI SESAMA PENJELAJAH</div>
+                <div class="rule-item">02. JAGA INTEGRITAS DATA ASTRONOMI</div>
+                <div class="rule-item">03. BERBAGI PENGETAHUAN SECARA TERBUKA</div>
+                <div class="rule-item">04. GUNAKAN SISTEM DENGAN BIJAK</div>
+            </div>
+
+            <div class="btn-masuk-portal" onclick="startSystem()">Masuk Portal</div>
         </div>
-        <div class="btn-masuk-portal" onclick="startSystem()">Masuk Portal</div>
     </div>
 
-    <!-- SISTEM LAMA: LOADING SCREEN -->
+    <!-- 2. LOADING SCREEN -->
     <div id="loading-screen">
         <img src="assets/favicon-tea.jpg" class="loader-rotate" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
-        <div style="font-size: 12px; letter-spacing: 3px; color: var(--accent-color);">MENGHUBUNGKAN SISTEM</div>
+        <div style="font-size: 12px; letter-spacing: 5px; color: var(--accent-color); font-weight: 700;">MENGHUBUNGKAN SISTEM</div>
         <div class="progress-box"><div class="progress-fill" id="p-fill"></div></div>
-        <div id="p-text" style="font-size: 14px;">0%</div>
+        <div id="p-text" style="font-size: 16px; font-weight: 700;">0%</div>
     </div>
 
-    <!-- HEADER (VISUAL BARU) -->
+    <!-- 3. HEADER -->
     <header>
         <div class="header-brand">
-            <div class="brand-dot"></div>
+            <img src="assets/favicon-tea.jpg" onerror="this.style.display='none'">
             <h2>TEA</h2>
         </div>
         <div class="header-nav">
-            <div class="nav-status-dot"></div>
-            <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+            <svg class="settings-icon" viewBox="0 0 24 24" onclick="toggleMenu()">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+            </svg>
         </div>
     </header>
 
-    <!-- MAIN HUB (VISUAL BARU SESUAI GAMBAR) -->
+    <!-- 4. MAIN HUB -->
     <main class="container">
         <div class="hero-section">
             <h1>THE HUB</h1>
             <p>PUSAT KENDALI NAVIGASI<br>ANTARIKSA TEA</p>
         </div>
 
-        <!-- Kartu 1 -->
-        <div class="portal-card">
-            <div class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </div>
-            <h3>SALURAN TEA</h3>
-            <p class="desc">Update berita astronomi via WhatsApp Channel</p>
-            <div class="btn-buka" onclick="goto('https://whatsapp.com/channel/tea')">
-                BUKA PORTAL <span>&rarr;</span>
-            </div>
-        </div>
-
-        <!-- Kartu 2 -->
-        <div class="portal-card">
-            <div class="card-tag">ARCHIVE</div>
-            <div class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </div>
-            <h3>WARTA ANTARIKSA</h3>
-            <p class="desc">Dashboard artikel & feed berita luar angkasa</p>
-            <div class="btn-buka" onclick="goto('#news')">
-                BUKA PORTAL <span>&rarr;</span>
-            </div>
-        </div>
-
-        <!-- Kartu 3 -->
-        <div class="portal-card">
-            <div class="card-tag">UTILITY</div>
-            <div class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
-            </div>
-            <h3>ASTRO CALC</h3>
-            <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
-            <div class="system-pill">
-                <div class="active-dot"></div>
-                SYSTEM ACTIVE
-            </div>
-        </div>
-
-        <!-- Kartu 4 -->
-        <div class="portal-card">
+        <!-- Kartu Sektor Alpha (Pindah ke atas) -->
+        <div class="portal-card" onclick="goto('#regis')">
             <div class="card-tag">REGISTRATION</div>
             <div class="icon-container">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <h3>SEKTOR ALPHA</h3>
             <p class="desc">Pendaftaran Anggota Baru TEA - Sektor Alpha</p>
-            <div class="btn-buka" onclick="goto('#regis')">
-                BUKA PORTAL <span>&rarr;</span>
+            <div class="btn-buka">BUKA PORTAL <span>&rarr;</span></div>
+        </div>
+
+        <!-- Kartu Saluran TEA -->
+        <div class="portal-card" onclick="goto('https://whatsapp.com/channel/tea')">
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
+            <h3>SALURAN TEA</h3>
+            <p class="desc">Update berita astronomi via WhatsApp Channel</p>
+            <div class="btn-buka">BUKA PORTAL <span>&rarr;</span></div>
+        </div>
+
+        <!-- Kartu Astro Calc (Ditambah tombol buka) -->
+        <div class="portal-card" onclick="goto('#astro')">
+            <div class="card-tag">UTILITY</div>
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+            </div>
+            <h3>ASTRO CALC</h3>
+            <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
+            <div class="btn-buka">BUKA PORTAL <span>&rarr;</span></div>
+        </div>
+
+        <!-- Kartu Baru: Quizz TEA -->
+        <div class="portal-card" onclick="goto('#quiz')">
+            <div class="card-tag">EDUCATION</div>
+            <div class="icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h3>QUIZZ TEA</h3>
+            <p class="desc">Uji pengetahuan astronomimu di sini</p>
+            <div class="btn-buka">BUKA PORTAL <span>&rarr;</span></div>
         </div>
     </main>
 
-    <!-- SISTEM LAMA: SETTINGS -->
+    <!-- FIXED INDICATOR -->
+    <div class="system-pill-fixed">
+        <div class="active-dot"></div>
+        SYSTEM ACTIVE
+    </div>
+
+    <!-- 5. SETTINGS PANEL (FUNCTIONAL) -->
     <div id="settings-panel">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 30px; color: var(--accent-color);">
+        <div class="setting-header">
             <h3>PANEL PENGATURAN</h3>
-            <span onclick="toggleMenu()" style="cursor:pointer; font-size: 24px;">&times;</span>
+            <span class="close-settings" onclick="toggleMenu()">&times;</span>
         </div>
-        <div class="setting-row"><span>Mode Layar Penuh</span><input type="checkbox"></div>
-        <div class="setting-row"><span>Musik Ambient</span><input type="checkbox"></div>
-        <div class="setting-row"><span>Status Daya</span><span id="bat">95%</span></div>
-        <div class="setting-row"><span>Efek Suara (SFX)</span><input type="checkbox" checked></div>
-        <div class="setting-row" style="border:none;"><span>Ukuran Teks</span><input type="range" style="width: 100px;"></div>
+        
+        <div class="setting-row">
+            <span>Mode Layar Penuh</span>
+            <input type="checkbox" id="fullscr-toggle" onchange="toggleFullscreen()">
+        </div>
+        
+        <div class="setting-row">
+            <span>Musik Ambient</span>
+            <input type="checkbox" id="ambient-toggle" onchange="handleAmbient()">
+        </div>
+        
+        <div class="setting-row">
+            <span>Status Daya</span>
+            <span id="bat-val" style="color: var(--accent-color);">--%</span>
+        </div>
+        
+        <div class="setting-row">
+            <span>Efek Suara (SFX)</span>
+            <input type="checkbox" id="sfx-toggle" checked>
+        </div>
+        
+        <div class="setting-row" style="border:none;">
+            <span>Ukuran Teks</span>
+            <input type="range" min="12" max="24" value="16" oninput="changeTextSize(this.value)">
+        </div>
     </div>
 
     <footer>dibuat oleh razeerh</footer>
 
     <script>
-        // Starfield Engine
+        // SOUND SYSTEM (Temporary)
+        const sfxClick = new Audio('https://www.soundjay.com/buttons/sounds/button-29.mp3');
+        const ambientMusic = new Audio('https://www.soundat.net/download/Ambient_Space_Music.mp3');
+        ambientMusic.loop = true;
+
+        function playSFX() {
+            if(document.getElementById('sfx-toggle').checked) {
+                sfxClick.currentTime = 0;
+                sfxClick.play().catch(e => {});
+            }
+        }
+
+        // SETTINGS FUNCTIONS
+        function toggleFullscreen() {
+            playSFX();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        function handleAmbient() {
+            playSFX();
+            const toggle = document.getElementById('ambient-toggle');
+            if(toggle.checked) ambientMusic.play().catch(e => alert("Interaksi diperlukan untuk memutar musik."));
+            else ambientMusic.pause();
+        }
+
+        function changeTextSize(val) {
+            document.documentElement.style.setProperty('--font-size-base', val + 'px');
+        }
+
+        // STARFIELD ENGINE
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let stars = [];
         function initStars() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             stars = [];
-            for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
+            for(let i=0; i<200; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
         }
         function drawStars() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255,255,255,0.8)";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y += 0.3; if(s.y > canvas.height) s.y = 0; });
+            ctx.fillStyle = "rgba(255,255,255,0.6)";
+            stars.forEach(s => { 
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); 
+                s.y += 0.2; if(s.y > canvas.height) s.y = 0; 
+            });
             requestAnimationFrame(drawStars);
         }
         initStars(); drawStars();
 
-        // SISTEM LAMA: TRANSISI & LOADING
+        // SCROLL REVEAL (FADE IN/OUT)
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal');
+                else entry.target.classList.remove('reveal'); // Fade out saat keluar viewport
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.portal-card').forEach(card => observer.observe(card));
+
+        // LOADING LOGIC (ENHANCED)
         function startSystem() {
+            playSFX();
             document.getElementById('intro-portal').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('intro-portal').style.display = 'none';
@@ -275,42 +386,39 @@
             const fill = document.getElementById('p-fill');
             const text = document.getElementById('p-text');
             screen.style.display = 'flex';
-            
+            fill.style.width = '0%';
+
             let p = 0;
             let interval = setInterval(() => {
-                p += Math.floor(Math.random() * 5) + 3;
+                p += Math.floor(Math.random() * 4) + 1;
                 if(p >= 100) {
                     p = 100;
                     clearInterval(interval);
                     setTimeout(() => {
-                        screen.style.display = 'none';
+                        screen.style.fadeOut = "0.5s";
+                        setTimeout(() => screen.style.display = 'none', 500);
                         if(callback) callback();
-                    }, 500);
+                    }, 800);
                 }
                 fill.style.width = p + '%';
                 text.innerText = p + '%';
-            }, 80);
+            }, 50);
         }
 
-        // SISTEM LAMA: GOTO FUNCTION
         function goto(url) {
+            playSFX();
             runLoading(() => {
                 if(url.startsWith('http')) window.location.href = url;
-                else alert("Navigasi internal ke: " + url);
+                else alert("Berhasil Terhubung ke: " + url);
             });
         }
 
         function toggleMenu() {
+            playSFX();
             document.getElementById('settings-panel').classList.toggle('active');
         }
 
         // Battery Status
         if (navigator.getBattery) {
             navigator.getBattery().then(b => {
-                const update = () => document.getElementById('bat').innerText = Math.round(b.level * 100) + "%";
-                update(); b.addEventListener('levelchange', update);
-            });
-        }
-    </script>
-</body>
-</html>
+                const update = () => docume
