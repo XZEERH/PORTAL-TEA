@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAC Astronomy Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .neon-button {
+            background: linear-gradient(45deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .neon-button:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="calculator-container" class="w-full max-w-4xl mx-auto px-6 py-8 md:py-16">
+        <button onclick="window.location.reload()" class="mb-8 md:mb-12 flex items-center gap-2 text-white/40 hover:text-white transition-colors font-orbitron text-[9px] md:text-[10px] tracking-[0.3em] uppercase">
+            <i data-lucide="arrow-left" size="14"></i> KEMBALI KE HUB
+        </button>
+
+        <div class="glass rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border border-white/5">
+            <div class="flex border-b border-white/5">
+                <button onclick="switchTab('conversion')" id="tab-conv" class="flex-1 py-6 md:py-8 font-orbitron text-[9px] md:text-[10px] tracking-[0.4em] transition-all uppercase bg-white/[0.05] text-white">
+                    Konversi Data
+                </button>
+                <button onclick="switchTab('physics')" id="tab-phys" class="flex-1 py-6 md:py-8 font-orbitron text-[9px] md:text-[10px] tracking-[0.4em] transition-all uppercase text-white/30 hover:text-white/50">
+                    Rumus Fisika
+                </button>
+            </div>
+
+            <div class="p-8 md:p-16">
+                
+                <div id="content-conversion" class="space-y-8 md:space-y-10">
+                    <div class="flex items-center gap-4 md:gap-5 mb-4">
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/10">
+                            <i data-lucide="zap" class="text-white"></i>
+                        </div>
+                        <h3 class="font-orbitron text-lg md:text-xl font-bold tracking-widest uppercase">Konversi Tahun Cahaya</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+                        <div class="space-y-3">
+                            <label class="block text-[8px] md:text-[9px] font-orbitron text-white/30 uppercase tracking-[0.4em]">Tahun Cahaya (ly)</label>
+                            <input type="number" id="ly-input" oninput="handleLyConv(this.value)" class="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 md:py-6 px-8 focus:border-white/30 focus:outline-none font-orbitron text-xl md:text-2xl text-white" placeholder="0.0">
+                        </div>
+                        <div class="hidden md:flex justify-center text-white/20">
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="block text-[8px] md:text-[9px] font-orbitron text-white/30 uppercase tracking-[0.4em]">Kilometer (km)</label>
+                            <div id="km-output" class="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-5 md:py-6 px-8 text-white font-orbitron text-xl md:text-2xl min-h-[68px] flex items-center">0.0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-physics" class="hidden space-y-8 md:space-y-10">
+                    <div class="flex items-center gap-4 md:gap-5 mb-4">
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/10">
+                            <i data-lucide="globe" class="text-white"></i>
+                        </div>
+                        <h3 class="font-orbitron text-lg md:text-xl font-bold tracking-widest uppercase">Gravitasi Universal</h3>
+                    </div>
+
+                    <div class="flex justify-center py-6 md:py-10">
+                        <div class="font-orbitron text-lg md:text-2xl text-white/80 bg-white/[0.02] px-6 md:px-10 py-4 md:py-6 rounded-2xl md:rounded-3xl border border-white/10 tracking-widest">
+                            F = G · (m₁ · m₂) / r²
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        <input type="number" id="m1" placeholder="Massa 1 (kg)" class="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-white/30">
+                        <input type="number" id="m2" placeholder="Massa 2 (kg)" class="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-white/30">
+                        <input type="number" id="r" placeholder="Jarak (m)" class="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-white/30">
+                    </div>
+
+                    <button onclick="calculateGravity()" class="w-full neon-button py-5 rounded-2xl font-orbitron font-bold tracking-[0.4em] text-[10px] uppercase">Hitung Gaya (Newton)</button>
+
+                    <div id="result-box" class="hidden p-8 rounded-3xl bg-white/[0.03] border border-white/10 text-center">
+                        <p class="text-[8px] font-orbitron text-white/30 uppercase tracking-[0.4em] mb-4">Hasil Perhitungan Gaya</p>
+                        <p id="force-output" class="font-orbitron text-3xl md:text-4xl font-black text-white tracking-tighter">0.0 N</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-white/[0.02] p-8 md:p-10 border-t border-white/5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex justify-between items-center p-4 rounded-xl bg-black/40 border border-white/5">
+                        <span class="text-[8px] text-white/40 font-orbitron uppercase tracking-widest">Kec. Cahaya (c)</span>
+                        <span class="text-[10px] text-white font-mono">299,792,458 m/s</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 rounded-xl bg-black/40 border border-white/5">
+                        <span class="text-[8px] text-white/40 font-orbitron uppercase tracking-widest">Gravitasi (G)</span>
+                        <span class="text-[10px] text-white font-mono">6.6743 × 10⁻¹¹</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-12 font-orbitron text-[8px] tracking-[0.4em] text-white/20 uppercase text-center">
+            EAC Astronomy Portal &copy; 2026 <span class="mx-4">|</span> Dibuat oleh Xzam
+        </p>
+    </div>
+
+    <script>
+        // Inisialisasi Ikon
+        lucide.createIcons();
+
+        // Logic Tab
+        function switchTab(tab) {
+            const convContent = document.getElementById('content-conversion');
+            const physContent = document.getElementById('content-physics');
+            const tabConv = document.getElementById('tab-conv');
+            const tabPhys = document.getElementById('tab-phys');
+
+            if (tab === 'conversion') {
+                convContent.classList.remove('hidden');
+                physContent.classList.add('hidden');
+                tabConv.classList.add('bg-white/[0.05]', 'text-white');
+                tabConv.classList.remove('text-white/30');
+                tabPhys.classList.remove('bg-white/[0.05]', 'text-white');
+                tabPhys.classList.add('text-white/30');
+            } else {
+                convContent.classList.add('hidden');
+                physContent.classList.remove('hidden');
+                tabPhys.classList.add('bg-white/[0.05]', 'text-white');
+                tabPhys.classList.remove('text-white/30');
+                tabConv.classList.remove('bg-white/[0.05]', 'text-white');
+                tabConv.classList.add('text-white/30');
+            }
+        }
+
+        // Logic Konversi
+        function handleLyConv(val) {
+            const output = document.getElementById('km-output');
+            if (!val) {
+                output.innerText = '0.0';
+                return;
+            }
+            const result = parseFloat(val) * 9.461e12;
+            output.innerText = result.toExponential(4);
+        }
+
+        // Logic Fisika
+        function calculateGravity() {
+            const m1 = parseFloat(document.getElementById('m1').value);
+            const m2 = parseFloat(document.getElementById('m2').value);
+            const r = parseFloat(document.getElementById('r').value);
+            const G = 6.67430e-11;
+
+            if (m1 && m2 && r) {
+                const force = (G * m1 * m2) / Math.pow(r, 2);
+                document.getElementById('force-output').innerText = force.toExponential(4) + ' N';
+                document.getElementById('result-box').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
