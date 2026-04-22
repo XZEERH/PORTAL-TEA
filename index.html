@@ -8,7 +8,7 @@
     <style>
         :root {
             --bg-color: #000000;
-            --accent-color: #ffffff;
+            --accent-color: #ffffff; /* Tema Hitam Putih sesuai perintah */
             --text-color: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.03);
             --border-color: rgba(255, 255, 255, 0.1);
@@ -17,7 +17,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        
         body { 
             background-color: var(--bg-color); 
             color: var(--text-color); 
@@ -26,226 +25,138 @@
             font-size: var(--font-size-base);
         }
 
-        /* Starfield tetap di paling bawah */
-        #starfield { 
-            position: fixed; 
-            inset: 0; 
-            z-index: -1; 
-            background: #000; 
-            pointer-events: none;
-        }
+        #starfield { position: fixed; inset: 0; z-index: -1; background: #000; }
 
-        /* --- 1. INTRO PORTAL FIX --- */
+        /* --- 1. INTRO PORTAL (STARFIELD VISIBLE) --- */
         #intro-portal {
-            position: fixed; 
-            inset: 0; 
-            z-index: 3000; /* Paling atas */
-            background: black; /* Hitam pekat agar hub tidak tembus di awal */
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
+            position: fixed; inset: 0; z-index: 2000; 
+            background: transparent; /* Transparan agar starfield terlihat */
+            display: flex; align-items: center; justify-content: center;
             text-align: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            overflow-y: auto; /* Jika layar kekecilan, bisa discroll */
+            transition: opacity 0.8s ease;
         }
-        
-        /* Agar starfield terlihat di intro setelah loading singkat */
-        #intro-portal.show-stars {
-            background: transparent;
-        }
+        .intro-content { max-width: 600px; padding: 20px; z-index: 2001; background: rgba(0,0,0,0.4); border-radius: 20px; backdrop-filter: blur(5px); }
+        .intro-logo-sec { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .intro-logo-sec img { width: 120px; height: 120px; filter: grayscale(1); }
+        .intro-logo-sec h1 { font-size: 80px; letter-spacing: 15px; line-height: 1; font-weight: 800; }
+        .sub-title-intro { font-size: 16px; letter-spacing: 5px; color: var(--accent-color); margin-bottom: 40px; text-transform: uppercase; }
+        .quote { font-style: italic; font-size: 18px; color: #ccc; margin-bottom: 30px; line-height: 1.6; }
 
-        .intro-content { 
-            max-width: 90%; 
-            width: 450px;
-            padding: 40px 20px; 
-            z-index: 3001; 
-        }
+        .rules-list { margin-bottom: 40px; display: inline-block; text-align: left; }
+        .rule-item { font-size: 13px; color: #666; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; border-left: 1px solid #444; padding-left: 10px; }
 
-        .intro-logo-sec img { 
-            width: 100px; 
-            height: 100px; 
-            filter: grayscale(1); 
-            margin-bottom: 10px;
-        }
-
-        .intro-logo-sec h1 { 
-            font-size: 60px; 
-            letter-spacing: 10px; 
-            line-height: 1.2; 
-            font-weight: 800; 
-            color: #fff; 
-        }
-
-        .sub-title-intro { 
-            font-size: 14px; 
-            letter-spacing: 3px; 
-            color: #888; 
-            margin-bottom: 30px; 
-            text-transform: uppercase; 
-        }
-
-        .quote { 
-            font-style: italic; 
-            font-size: 16px; 
-            color: #ccc; 
-            margin-bottom: 30px; 
-            line-height: 1.5; 
-        }
-
-        .rules-list { 
-            margin-bottom: 40px; 
-            display: inline-block; 
-            text-align: left; 
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .rule-item { 
-            font-size: 12px; 
-            color: #666; 
-            letter-spacing: 1px; 
-            margin-bottom: 8px; 
-            text-transform: uppercase; 
-            border-left: 1px solid #333;
-            padding-left: 10px;
-        }
-
+        /* Tombol Masuk Portal Hitam Putih */
         .btn-masuk-portal {
-            margin: 0 auto;
-            width: 200px;
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            font-weight: 700; 
-            cursor: pointer;
-            border: 1px solid #ffffff; 
-            padding: 15px; 
-            transition: 0.3s;
-            background: transparent; 
-            color: #ffffff;
-            display: block;
+            margin: 10px auto 40px; width: 220px;
+            text-transform: uppercase; letter-spacing: 5px; font-weight: 700; cursor: pointer;
+            border: 1px solid #fff; padding: 15px; transition: 0.3s;
+            background: transparent; color: #fff;
+            display: block; position: relative; z-index: 3000;
         }
-        .btn-masuk-portal:hover { background: #ffffff; color: #000; }
+        .btn-masuk-portal:hover { background: #fff; color: #000; }
 
-        /* --- 2. APP CONTAINER FIX --- */
-        #app-container {
-            display: none; /* Default sembunyi agar tidak merusak layout intro */
-            opacity: 0;
-            transition: opacity 1.5s ease;
-            position: relative;
-            z-index: 10;
+        /* --- 2. LOADING SCREEN --- */
+        #loading-screen {
+            position: fixed; inset: 0; background: #000; z-index: 5000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s ease;
         }
+        .loader-rotate { width: 150px; height: 150px; margin-bottom: 40px; animation: spin 4s linear infinite; filter: grayscale(1); }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .progress-box { width: 260px; height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0; }
+        .progress-fill { width: 0%; height: 100%; background: #fff; transition: 0.1s; }
 
+        /* --- 3. HEADER & SETTINGS BOX --- */
         header { 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-            padding: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(0,0,0,0.8); 
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000;
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
         }
-
-        .header-brand { display: flex; align-items: center; gap: 10px; }
-        .header-brand img { width: 28px; height: 28px; }
-        .header-brand h2 { font-size: 20px; letter-spacing: 4px; }
-
-        .settings-box {
+        .header-brand { display: flex; align-items: center; gap: 15px; }
+        .header-brand h2 { font-size: 24px; letter-spacing: 5px; font-weight: 700; }
+        
+        .settings-box-trigger {
             border: 1px solid var(--border-color);
-            padding: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 8px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
         }
+        .settings-box-trigger:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
-        /* --- 3. MAIN HUB & CARDS --- */
-        .container { 
-            padding: 30px 20px; 
-            max-width: 500px; 
-            margin: 0 auto; 
-        }
+        /* --- 4. MAIN HUB & CARDS --- */
+        #app-container { opacity: 0; visibility: hidden; transition: opacity 1.5s ease; }
+        #app-container.loaded { opacity: 1; visibility: visible; }
 
-        .hero-section { text-align: center; margin-bottom: 40px; }
-        .hero-section h1 { font-size: 40px; letter-spacing: 8px; }
-        .hero-section p { font-size: 10px; color: var(--secondary-text); letter-spacing: 3px; margin-top: 10px; }
+        .container { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+        .hero-section { text-align: center; margin-bottom: 60px; }
+        .hero-section h1 { font-size: 60px; letter-spacing: 12px; font-weight: 800; }
+        .hero-section p { font-size: 11px; color: var(--secondary-text); letter-spacing: 5px; margin-top: 15px; }
 
         .portal-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 20px;
-            position: relative;
-            transition: 0.4s;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 35px; padding: 35px; margin-bottom: 25px;
+            position: relative; cursor: pointer; transition: 0.4s;
+            opacity: 0; transform: translateY(30px);
         }
+        .portal-card.reveal { opacity: 1; transform: translateY(0); }
+        .portal-card:hover { border-color: #fff; background: rgba(255,255,255,0.06); }
 
-        .portal-card h3 { font-size: 22px; letter-spacing: 2px; margin-bottom: 8px; }
-        .portal-card .desc { font-size: 13px; color: var(--secondary-text); margin-bottom: 15px; }
-
-        .sys-active-card {
-            position: absolute;
-            bottom: 20px;
-            right: 25px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 9px;
-            color: #fff;
+        .sys-active-right {
+            position: absolute; bottom: 25px; right: 30px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 10px; letter-spacing: 2px; color: #fff;
         }
-        .dot-blink-white {
-            width: 5px; height: 5px;
-            background: #fff; border-radius: 50%;
-            animation: pulse-white 1.5s infinite;
-        }
+        .dot-blink-white { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink-white 1.5s infinite; }
+        @keyframes blink-white { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
 
-        /* --- 4. SETTINGS PANEL (FIXED CENTER) --- */
+        /* --- 5. SETTINGS PANEL (CENTERED) --- */
         #settings-panel {
-            position: fixed;
-            top: 50%; left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 85%; 
-            max-width: 350px;
-            background: rgba(15,15,15,0.98);
+            width: 90%; max-width: 400px;
+            background: rgba(10,10,10,0.95);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            z-index: 5000;
-            padding: 25px;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.4s;
+            border-radius: 25px; z-index: 4000; padding: 30px;
+            opacity: 0; visibility: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(15px);
         }
         #settings-panel.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
 
-        /* Switch Style */
-        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .switch { position: relative; width: 36px; height: 18px; }
+        .panel-title { color: #00f3ff; font-size: 20px; margin-bottom: 25px; text-align: center; letter-spacing: 4px; }
+
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* Switch Styling */
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; inset: 0; background: #333; border-radius: 20px; transition: .4s; }
-        .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .4s; }
-        input:checked + .slider { background: #00f3ff; }
-        input:checked + .slider:before { transform: translateX(18px); }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #333; transition: .4s; border-radius: 20px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #00f3ff; }
+        input:checked + .slider:before { transform: translateX(20px); }
 
-        /* --- LOADING SCREEN --- */
-        #loading-screen {
-            position: fixed; inset: 0; background: #000; z-index: 6000;
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.5s ease;
+        .btn-admin-box {
+            margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            gap: 12px; cursor: pointer; border: 1px solid transparent; transition: 0.3s;
         }
-        .loader-rotate { width: 100px; height: 100px; margin-bottom: 20px; animation: spin 4s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        footer { text-align: center; padding: 40px 0; font-size: 10px; color: #666; letter-spacing: 3px; }
+        .btn-admin-box:hover { border-color: #00f3ff; background: rgba(0,243,255,0.05); }
 
-        @keyframes pulse-white { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .btn-tutup-settings {
+            width: 100%; margin-top: 15px; background: transparent;
+            border: 1px solid #444; color: #888; padding: 12px;
+            border-radius: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-tutup-settings:hover { border-color: #fff; color: #fff; }
+
+        footer { text-align: center; padding: 60px 0 100px; font-size: 11px; letter-spacing: 5px; color: #bbb; } 
     </style>
 </head>
 <body>
 
     <canvas id="starfield"></canvas>
 
+    <!-- AUDIO ELEMENTS -->
     <audio id="sfx-click" src="https://files.catbox.moe/gv6ffo.mp3" preload="auto"></audio>
     <audio id="ambient-space" src="https://files.catbox.moe/1cv98q.mp3" loop preload="auto"></audio>
 
@@ -257,7 +168,7 @@
                 <h1>TEA</h1>
             </div>
             <div class="sub-title-intro">The Editor of Astronomy Community</div>
-            <p class="quote">"Menjelajahi cakrawala, menembus batas pengetahuan antariksa."</p>
+            <div class="quote">"Menjelajahi cakrawala, menembus batas pengetahuan antariksa."</div>
 
             <div class="rules-list">
                 <div class="rule-item">01. HORMATI SESAMA PENJELAJAH</div>
@@ -274,111 +185,212 @@
     <div id="loading-screen">
         <img src="assets/favicon-tea.jpg" class="loader-rotate" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
         <div style="font-size: 12px; letter-spacing: 5px; color: #fff;">MENGHUBUNGKAN SISTEM</div>
-        <div class="progress-box" style="width:200px; height:2px; background:#222; margin:20px;"><div class="progress-fill" id="p-fill" style="height:100%; width:0; background:#fff;"></div></div>
-        <div id="p-text" style="font-size:14px;">0%</div>
+        <div class="progress-box"><div class="progress-fill" id="p-fill"></div></div>
+        <div id="p-text">0%</div>
     </div>
 
-    <!-- 3. MAIN HUB -->
+
+    <!-- ANTI-FOUC WRAPPER -->
     <div id="app-container">
+
         <header>
             <div class="header-brand">
-                <img src="assets/favicon-tea.jpg" onerror="this.style.display='none'">
+                <img src="assets/favicon-tea.jpg" style="width:30px;" onerror="this.style.display='none'">
                 <h2>TEA</h2>
             </div>
-            <div class="settings-box" onclick="toggleMenu()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+            <div class="settings-box-trigger" onclick="toggleMenu()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
                     <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                 </svg>
             </div>
         </header>
 
-        <main class="container" id="main-container">
+        <main class="container">
             <div class="hero-section">
                 <h1>THE HUB</h1>
                 <p>PUSAT KENDALI NAVIGASI<br>ANTARIKSA TEA</p>
             </div>
 
+            <!-- Portal: Sektor Alpha -->
+            <div class="portal-card" onclick="goto('https://cahy144hz-community-tea.vercel.app/')">
+                <div class="card-tag">REGISTRATION</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <h3>SEKTOR ALPHA</h3>
+                <p class="desc">Pendaftaran Anggota Baru TEA - Sektor Alpha</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal: Saluran TEA -->
+            <div class="portal-card" onclick="goto('https://whatsapp.com/channel/tea')">
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3>SALURAN TEA</h3>
+                <p class="desc">Update berita astronomi via WhatsApp Channel</p>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
+            </div>
+
+            <!-- Portal: Warta Antariksa -->
             <div class="portal-card" onclick="goto('#warta')">
-                <div class="card-tag" style="position:absolute; top:20px; right:20px; font-size:8px; border:1px solid #333; padding:2px 8px; border-radius:10px; color:#888;">NEWS</div>
-                <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                <div class="card-tag">NEWS</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
                 </div>
                 <h3>WARTA ANTARIKSA</h3>
                 <p class="desc">Kumpulan artikel dan jurnal astronomi terbaru</p>
-                <div style="font-size:10px; font-weight:bold; letter-spacing:1px;">MASUK PORTAL &rarr;</div>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
             </div>
 
+            <!-- Portal: Quizz Astro (SVG Fixed & Realistic) -->
             <div class="portal-card" onclick="goto('#quiz')">
-                <div class="card-tag" style="position:absolute; top:20px; right:20px; font-size:8px; border:1px solid #333; padding:2px 8px; border-radius:10px; color:#888;">EDUCATION</div>
-                <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke-linecap="round"/><circle cx="12" cy="17" r="0.5" fill="#fff"/>
-                        <circle cx="12" cy="12" r="10"/>
+                <div class="card-tag">EDUCATION</div>
+                <div class="icon-container">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
                     </svg>
                 </div>
                 <h3>QUIZZ ASTRO</h3>
                 <p class="desc">Uji pengetahuan astronomimu di sini</p>
-                <div style="font-size:10px; font-weight:bold; letter-spacing:1px;">MEMBUKA PORTAL &rarr;</div>
-                <div class="sys-active-card">
+                <div class="btn-buka">MEMBUKA PORTAL <span>&rarr;</span></div>
+                <!-- System Active Dipindah ke Kanan -->
+                <div class="sys-active-right">
                     <div class="dot-blink-white"></div> SYSTEM ACTIVE
                 </div>
             </div>
 
+            <!-- Portal: Astro Calc -->
             <div class="portal-card" onclick="goto('#astro')">
-                <div class="card-tag" style="position:absolute; top:20px; right:20px; font-size:8px; border:1px solid #333; padding:2px 8px; border-radius:10px; color:#888;">UTILITY</div>
-                <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01"/></svg>
+                <div class="card-tag">UTILITY</div>
+                <div class="icon-container">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01"/></svg>
                 </div>
                 <h3>ASTRO CALC</h3>
                 <p class="desc">Alat hitung konversi & rumus fisika astronomi</p>
-                <div style="font-size:10px; font-weight:bold; letter-spacing:1px;">MASUK PORTAL &rarr;</div>
+                <div class="btn-buka">MASUK PORTAL <span>&rarr;</span></div>
             </div>
         </main>
 
+        <!-- 5. PANEL PENGATURAN (TENGAH & SWITCH) -->
         <div id="settings-panel">
-            <h3 style="color:#00f3ff; margin-bottom:20px; text-align:center;">PENGATURAN</h3>
-            <div class="setting-row"><span>Layar Penuh</span><label class="switch"><input type="checkbox" onchange="toggleFullscreen()"><span class="slider"></span></label></div>
-            <div class="setting-row"><span>Ambient Space</span><label class="switch"><input type="checkbox" id="ambient-toggle" onchange="handleAmbient()"><span class="slider"></span></label></div>
-            <div class="setting-row"><span>Sound Click</span><label class="switch"><input type="checkbox" id="sfx-toggle" checked><span class="slider"></span></label></div>
-            <div class="setting-row"><span>Status Daya</span><span id="bat-val" style="color:#00f3ff;">--%</span></div>
-            <div style="margin-top:20px;">
-                <span style="font-size:11px; color:#666;">Ukuran Teks</span>
-                <input type="range" min="12" max="24" value="16" style="width:100%; margin-top:5px;" oninput="changeTextSize(this.value)">
+            <h3 class="panel-title">PENGATURAN</h3>
+            
+            <div class="setting-row">
+                <span>Mode Layar Penuh</span>
+                <label class="switch"><input type="checkbox" onchange="toggleFullscreen()"><span class="slider"></span></label>
             </div>
-            <button onclick="toggleMenu()" style="width:100%; margin-top:20px; background:none; border:1px solid #444; color:#888; padding:10px; border-radius:10px;">TUTUP</button>
+
+            <div class="setting-row">
+                <span>Music Ambient Space</span>
+                <label class="switch"><input type="checkbox" id="ambient-toggle" onchange="handleAmbient()"><span class="slider"></span></label>
+            </div>
+
+            <div class="setting-row">
+                <span>Sound Click (SFX)</span>
+                <label class="switch"><input type="checkbox" id="sfx-toggle" checked><span class="slider"></span></label>
+            </div>
+
+            <div class="setting-row">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/></svg>
+                    <span>Status Daya</span>
+                </div>
+                <span id="bat-val" style="color: #00f3ff; font-weight:bold;">--%</span>
+            </div>
+
+            <div class="setting-row">
+                <span>Matikan Animasi</span>
+                <label class="switch"><input type="checkbox" id="anim-toggle"><span class="slider"></span></label>
+            </div>
+
+            <div style="margin-top:20px;">
+                <span style="font-size:12px; color:#666; letter-spacing:1px;">UKURAN TEKS</span>
+                <input type="range" min="12" max="24" value="16" style="width:100%; margin-top:10px;" oninput="changeTextSize(this.value)">
+            </div>
+
+            <div class="btn-admin-box" onclick="goto('hub-view')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>PANEL ADMIN</span>
+            </div>
+
+            <button class="btn-tutup-settings" onclick="toggleMenu()">TUTUP PENGATURAN</button>
         </div>
 
         <footer>dibuat oleh razeerh</footer>
+
     </div>
 
     <script>
-        // Starfield
-        const canvas = document.getElementById('starfield');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-        function initStars() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            stars = [];
-            for(let i=0; i<100; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.2});
-        }
-        function drawStars() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "white";
-            stars.forEach(s => { 
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); 
-                s.y += 0.2; if(s.y > canvas.height) s.y = 0; 
-            });
-            requestAnimationFrame(drawStars);
-        }
-        initStars(); drawStars();
-        window.addEventListener('resize', initStars);
-
         const sfx = document.getElementById('sfx-click');
         const ambient = document.getElementById('ambient-space');
 
-        function playClick() { if(document.getElementById('sfx-toggle').checked) { sfx.currentTime = 0; sfx.play(); } }
+        function playClick() {
+            if(document.getElementById('sfx-toggle').checked) {
+                sfx.currentTime = 0;
+                sfx.play();
+            }
+        }
 
-        function toggleMenu() { playClick(); document.getElementById('settings-panel').classList.toggle('active'); }
+        // --- SISTEM LAMA TETAP DIPERTAHANKAN ---
+        function startSystem() {
+            playClick();
+            const screen = document.getElementById('loading-screen');
+            const intro = document.getElementById('intro-portal');
+            const app = document.getElementById('app-container');
+
+            screen.style.display = 'flex';
+            setTimeout(() => { screen.style.opacity = '1'; }, 10);
+            intro.style.opacity = '0';
+            setTimeout(() => { intro.style.display = 'none'; }, 800);
+
+            runLoading(() => {
+                app.classList.add('loaded');
+            });
+        }
+
+        function runLoading(callback) {
+            const screen = document.getElementById('loading-screen');
+            const fill = document.getElementById('p-fill');
+            const text = document.getElementById('p-text');
+
+            screen.style.display = 'flex';
+            screen.style.opacity = '1';
+
+            let p = 0;
+            fill.style.width = '0%';
+            text.innerText = '0%';
+
+            let interval = setInterval(() => {
+                p += 1;
+                fill.style.width = p + '%';
+                text.innerText = p + '%';
+
+                if(p >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.opacity = '0';
+                        setTimeout(() => {
+                            screen.style.display = 'none';
+                            if(callback) callback();
+                        }, 500);
+                    }, 500);
+                }
+            }, 45); 
+        }
+
+        function goto(url) {
+            playClick();
+            runLoading(() => {
+                if(url.startsWith('http')) window.location.href = url;
+                else alert("Berpindah ke: " + url);
+            });
+        }
+
+        function toggleMenu() {
+            playClick();
+            document.getElementById('settings-panel').classList.toggle('active');
+        }
 
         function handleAmbient() {
             playClick();
@@ -396,50 +408,26 @@
             document.documentElement.style.setProperty('--font-size-base', v + 'px');
         }
 
-        function startSystem() {
-            playClick();
-            const screen = document.getElementById('loading-screen');
-            const intro = document.getElementById('intro-portal');
-            const app = document.getElementById('app-container');
-
-            screen.style.display = 'flex';
-            setTimeout(() => { screen.style.opacity = '1'; }, 10);
-            intro.style.opacity = '0';
-            
-            runLoading(() => {
-                intro.style.display = 'none';
-                app.style.display = 'block';
-                setTimeout(() => { app.style.opacity = '1'; }, 50);
-            });
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function initStars() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = [];
+            for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
         }
-
-        function runLoading(callback) {
-            const fill = document.getElementById('p-fill');
-            const text = document.getElementById('p-text');
-            let p = 0;
-            let interval = setInterval(() => {
-                p += 1;
-                fill.style.width = p + '%';
-                text.innerText = p + '%';
-                if(p >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loading-screen').style.opacity = '0';
-                        setTimeout(() => {
-                            document.getElementById('loading-screen').style.display = 'none';
-                            if(callback) callback();
-                        }, 500);
-                    }, 500);
-                }
-            }, 40); 
+        function drawStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y += 0.2; if(s.y > canvas.height) s.y = 0; });
+            requestAnimationFrame(drawStars);
         }
+        initStars(); drawStars();
 
-        function goto(url) {
-            playClick();
-            runLoading(() => {
-                if(url.startsWith('http')) window.location.href = url;
-            });
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('reveal'); });
+        }, {threshold: 0.1});
+        document.querySelectorAll('.portal-card').forEach(c => observer.observe(c));
 
         if (navigator.getBattery) {
             navigator.getBattery().then(b => {
@@ -447,11 +435,6 @@
                 upd(); b.addEventListener('levelchange', upd);
             });
         }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if(e.isIntersecting) e.target.style.opacity = 1; });
-        }, {threshold: 0.1});
-        document.querySelectorAll('.portal-card').forEach(c => { c.style.opacity = 0; observer.observe(c); });
     </script>
 </body>
 </html>
