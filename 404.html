@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 TEA ERROR - Lost in Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow: hidden; /* Mencegah scroll bar karena ini halaman error statis */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Starfield Animation di Background */
+        #starfield {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: #000;
+        }
+
+        /* Container Konten 404 */
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Logo TEA dengan efek Float (Melayang) dan hilangkan background hitam */
+        .error-logo {
+            width: 130px;
+            height: 130px;
+            filter: grayscale(1);
+            mix-blend-mode: screen;
+            margin-bottom: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Teks Error */
+        .error-title {
+            font-size: 55px;
+            letter-spacing: 12px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .error-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        /* Tombol Kembali */
+        .btn-kembali {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 35px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+        }
+
+        .btn-kembali:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Garis pemisah neon kecil */
+        .separator {
+            width: 50px;
+            height: 2px;
+            background: #fff;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 10px #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Starfield Latar Belakang -->
+    <canvas id="starfield"></canvas>
+
+    <!-- Konten Error 404 -->
+    <div class="error-container">
+        <!-- Logo -->
+        <img src="assets/favicon-tea.jpg" class="error-logo" alt="TEA Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+        
+        <!-- Tulisan 404 -->
+        <h1 class="error-title">404 ERROR</h1>
+        <div class="separator"></div>
+
+        <!-- Deskripsi Tersesat -->
+        <p class="error-desc">
+            "Heyy!! Kamu telah keluar terlalu jauh dari galaksi, cakrawala yang kamu cari saat ini blom ada atau telah menghilang masuk ke black hole, silahkan kembali lagi ke galaksi!"
+        </p>
+
+        <!-- Tombol Kembali -->
+        <a href="index.html" class="btn-kembali" onclick="goBack(event)">
+            KEMBALI &rarr;
+        </a>
+    </div>
+
+    <!-- SCRIPT ANIMASI BINTANG (SAMA SEPERTI PORTAL UTAMA) -->
+    <script>
+        // Logika Starfield
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        const starData = new Array();
+
+        function initStars() {
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight;
+            starData.length = 0; 
+            for(let i=0; i<150; i++) {
+                starData.push({ 
+                    x: Math.random() * canvas.width, 
+                    y: Math.random() * canvas.height, 
+                    s: Math.random() * 1.5 
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            for(let i=0; i<starData.length; i++) {
+                let s = starData[i];
+                ctx.beginPath(); 
+                ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); 
+                ctx.fill(); 
+                s.y += 0.2; 
+                if(s.y > canvas.height) s.y = 0;
+            }
+            requestAnimationFrame(drawStars);
+        }
+
+        // Auto-resize canvas ketika layar berubah ukuran
+        window.addEventListener('resize', initStars);
+
+        initStars(); 
+        drawStars();
+
+        // Fungsi Tombol Kembali (Bisa deteksi history atau lempar ke index)
+        function goBack(e) {
+            e.preventDefault();
+            // Jika ada riwayat sebelumnya, gunakan history back
+            if(window.history.length > 1 && document.referrer.includes(window.location.host)) {
+                window.history.back();
+            } else {
+                // Jika user langsung direct link ke error, paksa balik ke index
+                window.location.href = 'index.html'; 
+            }
+        }
+    </script>
+</body>
+</html>
