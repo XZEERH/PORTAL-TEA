@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 TEA ERROR - Lost in Space</title>
+    <title> TEA 404 ERROR - Lost in Space</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -122,8 +122,9 @@
 
     <!-- Konten Error 404 -->
     <div class="error-container">
-        <!-- Logo -->
-        <img src="assets/favicon-tea.jpg" class="error-logo" alt="TEA Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
+
+        <!-- LOGO ABSOLUT: Pasti muncul meskipun file ini ditaruh di dalam folder pages/ atau folder lain -->
+        <img src="https://xzeerh.github.io/PORTAL-TEA/assets/favicon-tea.jpg" class="error-logo" alt="TEA Logo" onerror="this.src='https://i.ibb.co/L5Mv1Ww/saturn-svgrepo-com.png'">
 
         <!-- Tulisan 404 -->
         <h1 class="error-title">404 ERROR</h1>
@@ -131,16 +132,16 @@
 
         <!-- Deskripsi Tersesat -->
         <p class="error-desc">
-            "Heyy!! Kamu telah keluar terlalu jauh dari galaksi TEA, cakrawala yang kamu cari saat ini blom ada atau telah menghilang masuk ke black hole, silahkan kembali lagi ke galaksi TEA!"
+            "Heyy!! Kamu telah keluar terlalu jauh dari galaksi kami, cakrawala yang kamu cari saat ini blom ada atau telah menghilang masuk ke black hole, silahkan kembali lagi ke galaksi kami!"
         </p>
 
-        <!-- Tombol Kembali -->
-        <a href="index.html" class="btn-kembali" onclick="goBack(event)">
+        <!-- Tombol Kembali Absolut -->
+        <a href="https://xzeerh.github.io/PORTAL-TEA/" class="btn-kembali" onclick="goBack(event)">
             KEMBALI &rarr;
         </a>
     </div>
 
-    <!-- SCRIPT ANIMASI BINTANG (SAMA SEPERTI PORTAL UTAMA) -->
+    <!-- SCRIPT ANIMASI BINTANG -->
     <script>
         // Logika Starfield
         const canvas = document.getElementById('starfield');
@@ -180,15 +181,15 @@
         initStars(); 
         drawStars();
 
-        // Fungsi Tombol Kembali (Bisa deteksi history atau lempar ke index)
+        // Fungsi Tombol Kembali Pintar
         function goBack(e) {
             e.preventDefault();
             // Jika ada riwayat sebelumnya, gunakan history back
             if(window.history.length > 1 && document.referrer.includes(window.location.host)) {
                 window.history.back();
             } else {
-                // Jika user langsung direct link ke error, paksa balik ke index
-                window.location.href = 'index.html'; 
+                // Jika user langsung direct link ke error, paksa balik ke index utama Github kamu
+                window.location.href = 'https://xzeerh.github.io/PORTAL-TEA/'; 
             }
         }
     </script>
